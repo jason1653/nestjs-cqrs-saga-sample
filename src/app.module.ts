@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CatalogModule } from './catalog/catalog.module';
 import { typeOrmConfig } from './typeorm.config';
 import { ProductModule } from './product/product.module';
-import { UserModule } from './user/user.module';
+import { UsersModule } from './users/users.module';
 
 console.log(typeOrmConfig);
 
@@ -17,7 +17,7 @@ console.log(typeOrmConfig);
     TypeOrmModule.forRoot(typeOrmConfig),
     CatalogModule,
     ProductModule,
-    UserModule,
+    UsersModule,
   ],
 })
 export class AppModule {}
