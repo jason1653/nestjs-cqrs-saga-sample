@@ -1,4 +1,4 @@
-import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Users } from 'src/users/entities/users.entity';
 import { UsersStore } from 'src/users/stores/users.store';
 import { CreateUserCommand } from '../impl/create-user.command';
@@ -6,7 +6,7 @@ import { CreateUserCommand } from '../impl/create-user.command';
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   public constructor(
-    private readonly publisher: EventPublisher,
+    // private readonly publisher: EventPublisher,
     private readonly usersStore: UsersStore,
   ) {}
   async execute(command: CreateUserCommand): Promise<any> {

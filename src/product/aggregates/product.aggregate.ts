@@ -3,9 +3,9 @@ import { ProductWasAddedEvent } from '../events/impl/product-was-added.event';
 
 export class ProductAggregate extends AggregateRoot {
   constructor(
-    private readonly seq: number,
-    private readonly productNm: string,
-    private readonly price: number,
+    public readonly seq: number,
+    public readonly productNm: string,
+    public readonly price: number,
   ) {
     super();
   }
