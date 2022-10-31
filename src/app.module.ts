@@ -1,20 +1,31 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CatalogModule } from './catalog/catalog.module';
-import { typeOrmConfig } from './typeorm.config';
 import { ProductModule } from './product/product.module';
 import { UsersModule } from './users/users.module';
-
-console.log(typeOrmConfig);
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.development', '.env.proction'],
+      envFilePath: ['.env'],
     }),
-    TypeOrmModule.forRoot(typeOrmConfig),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get('DB_HOST'),
+        port: Number(configService.get('DB_PORT')),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_NAME'),
+        entities: [`${__dirname}/**/entities/*{.ts,.js}`],
+        charset: 'utf8mb4_unicode_ci',
+        synchronize: false,
+        logging: process.env.NODE_ENV === 'production' ? false : true,
+      }),
+    }),
     CatalogModule,
     ProductModule,
     UsersModule,
